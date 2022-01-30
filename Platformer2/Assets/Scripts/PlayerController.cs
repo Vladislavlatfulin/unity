@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float directionX;
     [SerializeField] private Animator animator;
+    [SerializeField] private Transform playerModelTransform;
 
     private Finish _finish;
     private LeverArm _leverArm;
@@ -79,9 +80,9 @@ public class PlayerController : MonoBehaviour
     private void Flip ()
     {
         _isFacingRight = !_isFacingRight;
-        Vector3 scale = transform.localScale;
+        Vector3 scale = playerModelTransform.localScale;
         scale.x *= -1;
-        transform.localScale = scale;
+        playerModelTransform.localScale = scale;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

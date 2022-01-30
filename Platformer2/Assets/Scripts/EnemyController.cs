@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float chasingSpeed = 3f;
     [SerializeField] private float patrolSpeed = 1f;
     [SerializeField] private float timeToWait = 1.5f;
-    [SerializeField] private float minDistance = 1.6f;
+    [SerializeField] private float minDistance = 1.75f;
     [SerializeField] private float timeToChase = 1.5f;
 
     private Transform _playerTransform;
