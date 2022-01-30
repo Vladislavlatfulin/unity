@@ -15,16 +15,17 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D _enemyBody;
     private Vector2 _leftBoundaryPosiyion;
     private Vector2 _rightBoundaryPosition;
+    private Vector2 _nextPoint;
 
+
+    private float _walkSpeed;
+    private float _timeWait;
     private float _chaseTime;
+
     private bool _isFacingRight = true;
     private bool _isWait = false;
     private bool _chasingPlayer = false;
-    private Vector2 _nextPoint;
-    private float _walkSpeed;
-
-    private float _timeWait;
-
+   
     public bool IsFacingRight { get => _isFacingRight; }
 
 

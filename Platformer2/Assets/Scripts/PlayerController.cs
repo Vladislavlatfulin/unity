@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     private Finish _finish;
     private LeverArm _leverArm;
     private Rigidbody2D _playerBody;
+
     private float _horizontal = 0f;
+
     private bool _isGround = false;
     private bool _isJump = false;
     private bool _isFacingRight = true;
