@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float timeToWait = 1.5f;
     [SerializeField] private float minDistance = 1.75f;
     [SerializeField] private float timeToChase = 1.5f;
+    [SerializeField] private Transform modelEnemyTransform;
 
     private Transform _playerTransform;
     private Rigidbody2D _enemyBody;
@@ -128,9 +129,9 @@ public class EnemyController : MonoBehaviour
     private void Flip()
     {
         _isFacingRight = !_isFacingRight;
-        Vector3 scale = transform.localScale;
+        Vector3 scale = modelEnemyTransform.localScale;
         scale.x *= -1;
-        transform.localScale = scale;
+        modelEnemyTransform.localScale = scale;
     }
 
     private bool ShouldWait()

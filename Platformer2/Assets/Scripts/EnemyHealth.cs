@@ -7,14 +7,12 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private Slider slider;
     [SerializeField] private float totalHealth = 100f;
-
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
     private float _health;
 
 
     private void Start()
     {
-        _animator = GetComponent<Animator>();
         _health = totalHealth;
         InitHealth();
     }
