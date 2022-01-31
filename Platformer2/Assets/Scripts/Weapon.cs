@@ -5,6 +5,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private float damage = 20f;
+    [SerializeField] private AudioSource weaponSound;
     private AttackController _attackController;
 
 
@@ -19,6 +20,7 @@ public class Weapon : MonoBehaviour
         if(enemyHealth != null && _attackController.IsAttack)
         {
             enemyHealth.RediceHealth(damage);
+            weaponSound.Play();
         }
     }
 

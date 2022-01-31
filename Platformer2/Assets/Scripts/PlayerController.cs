@@ -7,10 +7,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float directionX;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform playerModelTransform;
+    [SerializeField] private AudioSource jumpSound;
 
     private Finish _finish;
     private LeverArm _leverArm;
     private Rigidbody2D _playerBody;
+  
 
     private float _horizontal = 0f;
 
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private bool _isFacingRight = true;
     private bool _isFinish = false;
     private bool _isLeverArm = false;
+
 
 
 
@@ -37,6 +40,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.W) && _isGround)
         {
             _isJump = true;
+            jumpSound.Play();
         }
 
         if (Input.GetKeyDown(KeyCode.F) && _isFinish)
