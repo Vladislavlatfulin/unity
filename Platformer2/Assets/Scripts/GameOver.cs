@@ -10,11 +10,13 @@ public class GameOver : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
+        Time.timeScale = 1f;
     }
 
     public void ExitHandler()
     {
         SceneManager.LoadScene("Menu Scene");
+        Time.timeScale = 1f;
     }
 
 }

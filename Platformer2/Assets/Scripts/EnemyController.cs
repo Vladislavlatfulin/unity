@@ -8,7 +8,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float chasingSpeed = 3f;
     [SerializeField] private float patrolSpeed = 1f;
     [SerializeField] private float timeToWait = 1.5f;
-    [SerializeField] private float minDistance = 1.75f;
     [SerializeField] private float timeToChase = 1.5f;
     [SerializeField] private Transform modelEnemyTransform;
 
@@ -17,6 +16,7 @@ public class EnemyController : MonoBehaviour
     private Vector2 _leftBoundaryPosiyion;
     private Vector2 _rightBoundaryPosition;
     private Vector2 _nextPoint;
+    private float _gravity = -9.8f;
 
 
     private float _walkSpeed;
@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour
     private bool _isFacingRight = true;
     private bool _isWait = false;
     private bool _chasingPlayer = false;
+    private bool _playerWithCollider;
    
     public bool IsFacingRight { get => _isFacingRight; }
 
@@ -43,6 +44,8 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        
+
         if (_chasingPlayer)
         {
             StartChaseTimer();
@@ -62,7 +65,7 @@ public class EnemyController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_chasingPlayer && Mathf.Abs(DistanceToPlayer()) < minDistance)
+        if (_chasingPlayer && _playerWithCollider)
         {
             return;
         }
@@ -160,6 +163,26 @@ public class EnemyController : MonoBehaviour
             _chaseTime = timeToChase;
             _chasingPlayer = false;
             _walkSpeed = patrolSpeed;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+        if (player != null)
+        {
+            _playerWithCollider = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+        if (player != null)
+        {
+            _playerWithCollider = false;
         }
     }
 
