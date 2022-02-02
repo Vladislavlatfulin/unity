@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 1950050922}
   - component: {fileID: 1950050915}
   m_Layer: 6
-  m_Name: BURLY-MAN_1_swordsman
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

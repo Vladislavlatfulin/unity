@@ -10,18 +10,25 @@ public class AttackController : MonoBehaviour
     private bool _isAttack = false;
     public bool IsAttack { get => _isAttack; }
 
-    private void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            attackSound.Play();
-            _isAttack = true;
-            playerAnimator.SetTrigger("Attack");
-        }
-    }
+    //private void Update()
+    //{
+    //    if(Input.GetMouseButtonDown(0))
+    //    {
+    //        attackSound.Play();
+    //        _isAttack = true;
+    //        playerAnimator.SetTrigger("Attack");
+    //    }
+    //}
 
     public void FinishAttack()
     {
         _isAttack = false;
+    }
+
+    public void Attack()
+    {
+        attackSound.Play();
+        _isAttack = true;
+        playerAnimator.SetTrigger("Attack");
     }
 }

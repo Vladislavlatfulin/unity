@@ -9,10 +9,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform playerModelTransform;
     [SerializeField] private AudioSource jumpSound;
 
+    private FixedJoystick _joystick;
     private Finish _finish;
     private LeverArm _leverArm;
     private Rigidbody2D _playerBody;
-  
+
 
     private float _horizontal = 0f;
 
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        _joystick = GameObject.FindGameObjectWithTag("FixedJoystick").GetComponent<FixedJoystick>();
         _playerBody = GetComponent<Rigidbody2D>();
         _finish = GameObject.FindGameObjectWithTag("Finish").GetComponent<Finish>();
         _leverArm = GameObject.FindGameObjectWithTag("LeverArm").GetComponent<LeverArm>();
@@ -34,23 +36,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        _horizontal = Input.GetAxis("Horizontal");
+        //_horizontal = Input.GetAxis("Horizontal");
+        _horizontal = _joystick.Horizontal;
         animator.SetFloat("DirectionX", Mathf.Abs(_horizontal));
 
-        if (Input.GetKeyDown(KeyCode.W) && _isGround)
-        {
-            _isJump = true;
-            jumpSound.Play();
-        }
+        
 
-        if (Input.GetKeyDown(KeyCode.F) && _isFinish)
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            _finish.FinishLevel();
-        }
-
-        if (Input.GetKeyDown(KeyCode.F) && _isLeverArm)
-        {
-            _leverArm.ActivateLeverArm();
+            Interact();
         }
     }
 
@@ -76,12 +70,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Interact()
+    {
+        if (_isFinish)
+        {
+            _finish.FinishLevel();
+        }
+
+        if (_isLeverArm)
+        {
+            _leverArm.ActivateLeverArm();
+        }
+    }
+
+    public void Jump()
+    {
+        if (_isGround)
+        {
+            _isJump = true;
+            jumpSound.Play();
+        }
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground")) { _isGround = true; }
     }
 
-    private void Flip ()
+    private void Flip()
     {
         _isFacingRight = !_isFacingRight;
         Vector3 scale = playerModelTransform.localScale;

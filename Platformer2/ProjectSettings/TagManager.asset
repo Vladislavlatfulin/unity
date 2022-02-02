@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - LeverArm
+  - FixedJoystick
   layers:
   - Default
   - TransparentFX
