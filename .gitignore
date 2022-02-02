@@ -58,3 +58,9 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Executables
+*.exe
+*.out
+*.app
+*.DS_Store
+._*
