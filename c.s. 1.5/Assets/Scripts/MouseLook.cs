@@ -4,50 +4,58 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float sensitivityHor = 9.0f;
-    public float sensitivityVer = 9.0f;
-    public float maxVer = 45.0f;
-    public float minVer = -45.0f;
-    private float _rotationX;
+    [SerializeField] private float verticalMin = -45f;
+    [SerializeField] private float verticalMax = 45f;
+    [SerializeField] private float sensitivity = 9f;
+    [SerializeField] RotationMouse axis = RotationMouse.rotationX;
 
-    public enum RotationAxes
+    private float _rotationX = 0;
+
+    private enum RotationMouse
     {
-        mouseX = 0,
-        mouseY = 1,
-        mouseYandX = 2
-    }
-    public RotationAxes axes = RotationAxes.mouseX;
-    void Start()
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.freezeRotation = true;
-        }
+        rotationX = 0,
+        rotationY = 1,
+        rotationXandY = 2
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        if (axes == RotationAxes.mouseX)
+        Rigidbody body = GetComponent<Rigidbody>();
+        if (body != null)
         {
-            transform.Rotate(0, sensitivityHor * Input.GetAxis("Mouse X"), 0);
-        }
-        else if (axes == RotationAxes.mouseY)
-        {
-            _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVer;
-            _rotationX = Mathf.Clamp(_rotationX, minVer, maxVer);
-            float _rotationY = transform.localEulerAngles.y;
-            transform.localEulerAngles = new Vector3(_rotationX, _rotationY, 0);
-        }
-
-        else
-        {
-            _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVer;
-            _rotationX = Mathf.Clamp(_rotationX, minVer, maxVer);
-            float delta = sensitivityHor * Input.GetAxis("Mouse X");
-            float _rotationY = transform.localEulerAngles.y + delta;
-            transform.localEulerAngles = new Vector3(_rotationX, _rotationY, 0);
+            body.freezeRotation = true;
         }
     }
+
+    private void Update()
+    {
+        if (axis == RotationMouse.rotationX)
+        {
+            transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivity, 0);
+        }
+
+        else if (axis == RotationMouse.rotationY)
+        {
+            _rotationX -= transform.localEulerAngles.y + Input.GetAxis("Mouse Y") * sensitivity;
+            _rotationX = Mathf.Clamp(_rotationX, verticalMin, verticalMax);
+            float rotationY = transform.localEulerAngles.y;
+            transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
+
+        }
+
+        else if (axis == RotationMouse.rotationXandY)
+        {
+            _rotationX -= transform.localEulerAngles.y + Input.GetAxis("Mouse Y") * sensitivity;
+            _rotationX = Mathf.Clamp(_rotationX, verticalMin, verticalMax);
+
+            float delta = Input.GetAxis("Mouse X") * sensitivity;
+            float rotationY = transform.localEulerAngles.x + delta;
+
+            transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
+        }
+    }
+
+
+
+
 }

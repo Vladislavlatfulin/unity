@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-
-
 public class RayShooter : MonoBehaviour
 {
-    Camera _camera;
-    void Start()
+    private Camera _camera;
+
+    private void Start()
     {
         _camera = GetComponent<Camera>();
-       
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
-   
-    void Update()
+    private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0))
         {
-            Vector3 pixels = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
-            Ray ray = _camera.ScreenPointToRay(pixels);
+            Vector3 point = new Vector3(_camera.pixelWidth/2, _camera.pixelHeight/2, 0);
+            Ray ray = _camera.ScreenPointToRay(point);
             RaycastHit hit;
+             
             if (Physics.Raycast(ray, out hit))
             {
                 GameObject enemy = hit.transform.gameObject;
@@ -32,20 +32,22 @@ public class RayShooter : MonoBehaviour
                 }
                 else
                 {
-                    StartCoroutine(CreateSphere(hit.point));
+                    StartCoroutine(SphereIndicator(hit.point));
+
                 }
-                
+
             }
         }
     }
 
-
-    private IEnumerator CreateSphere(Vector3 point)
+    private IEnumerator SphereIndicator (Vector3 point)
     {
-        GameObject Go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        Go.transform.position = point;
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        sphere.transform.position = point;
+
         yield return new WaitForSeconds(1);
-        Destroy(Go);
+
+        Destroy(sphere);
     }
 
     private void OnGUI()
@@ -55,4 +57,6 @@ public class RayShooter : MonoBehaviour
         float posY = _camera.pixelHeight / 2 - size / 2;
         GUI.Label(new Rect(posX, posY, size, size), "*");
     }
+
+
 }

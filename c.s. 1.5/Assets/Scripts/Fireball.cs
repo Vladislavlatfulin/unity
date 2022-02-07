@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Fireball : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public float speed = 5.0f;
+   
+    [SerializeField] private float speed = 5.0f;
 
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(0, 0, speed *Time.deltaTime);
@@ -20,6 +19,6 @@ public class Fireball : MonoBehaviour
         {
             player.Hurt(1);
         }
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

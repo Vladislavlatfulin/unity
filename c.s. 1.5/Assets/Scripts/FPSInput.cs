@@ -2,29 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class FPSInput : MonoBehaviour
 {
+    [SerializeField] private float speed = 5f;
 
-    public float speed = 5.0f;
-    CharacterController character;
-    // Start is called before the first frame update
-    void Start()
+    private CharacterController _characterController;
+    private float _gravity = -9.8f;
+
+    private void Start()
     {
-        character = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        float speedX = Input.GetAxis("Horizontal") * speed;
-        float speedY = Input.GetAxis("Vertical") * speed;
-        Vector3 moment = new Vector3(speedX, 0, speedY);
-        moment = Vector3.ClampMagnitude(moment, speed);
-        float graity = -9.8f;
-        moment.y = graity;
-        moment *= Time.deltaTime;
-        moment = transform.TransformDirection(moment);
-        character.Move(moment);
+        float deltaX = Input.GetAxis("Horizontal") * speed;
+        float deltaY = Input.GetAxis("Vertical") * speed;
+        Vector3 moving = new Vector3(deltaX, 0, deltaY);
+
+        moving = Vector3.ClampMagnitude(moving, speed);
+        moving.y = _gravity;
+        moving *= Time.deltaTime;
+        moving = transform.TransformDirection(moving);
+
+        _characterController.Move(moving);
 
     }
 }

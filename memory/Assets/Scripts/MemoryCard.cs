@@ -4,33 +4,19 @@ using UnityEngine;
 
 public class MemoryCard : MonoBehaviour
 {
-    [SerializeField] private GameObject backCard;
+    [SerializeField] private GameObject cardBack;
     [SerializeField] private Sprite image;
-    [SerializeField] private SceneController controller;
 
-    private int _id;
-    public int id
+    private void Start()
     {
-        get { return _id; }
-    }
-
-    public void SetCard(int id, Sprite image)
-    {
-        _id = id;
         GetComponent<SpriteRenderer>().sprite = image;
     }
 
     private void OnMouseDown()
     {
-        if (backCard.activeSelf && controller.CanReveal())
+        if (cardBack.activeSelf)
         {
-            backCard.SetActive(false);
-            controller.CardRevealed(this);
+            cardBack.SetActive(false);
         }
-    }
-
-    public void Unreveal()
-    {
-        backCard.SetActive(true);
     }
 }
