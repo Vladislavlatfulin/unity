@@ -63,4 +63,10 @@ crashlytics-build.properties
 *.out
 *.app
 *.DS_Store
+<<<<<<< HEAD
 ._*
+=======
+._*
+>>>>>>> parent of 68d572e (add OSX restrictions in gitignore file)
+.DS_Store
+RollaBall/.DS_Store
