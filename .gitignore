@@ -90,3 +90,10 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Executables
+*.exe
+*.out
+*.app
+*.DS_Store
+._*
