@@ -10,13 +10,12 @@ public class RayShooter : MonoBehaviour
     private void Start()
     {
         _camera = GetComponent<Camera>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Vector3 point = new Vector3(_camera.pixelWidth/2, _camera.pixelHeight/2, 0);
             Ray ray = _camera.ScreenPointToRay(point);
@@ -26,9 +25,10 @@ public class RayShooter : MonoBehaviour
             {
                 GameObject enemy = hit.transform.gameObject;
                 ReactiveTarget target = enemy.GetComponent<ReactiveTarget>();
-                if (target != null)
+                if (target != null && enemy.GetComponent<WandaringAI>().Alive)
                 {
                     target.ReactToHit();
+                    Messenger.Broadcast(GameEvent.ENEMY_HIT);
                 }
                 else
                 {

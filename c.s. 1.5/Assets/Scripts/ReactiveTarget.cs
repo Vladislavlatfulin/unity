@@ -10,7 +10,7 @@ public class ReactiveTarget : MonoBehaviour
         WandaringAI AI = GetComponent<WandaringAI>();
         if (AI != null)
         {
-            AI.Alive(false);
+            AI.SetAlive(false);
         }
 
         StartCoroutine(Die());

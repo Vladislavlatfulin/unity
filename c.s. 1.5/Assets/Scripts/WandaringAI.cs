@@ -8,9 +8,26 @@ public class WandaringAI : MonoBehaviour
     [SerializeField] private float obstancleRange = 5f;
     [SerializeField] private GameObject fireBallPrefab;
     private GameObject _fireBall;
-
+    public const float baseSpeed = 3.0f;
 
     private bool _alive = true;
+
+    public bool Alive { get => _alive; }
+
+    private void Awake()
+    {
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    private void OnSpeedChanged(float value)
+    {
+        speed = baseSpeed * value;
+    }
 
     private void Update()
     {
@@ -43,7 +60,7 @@ public class WandaringAI : MonoBehaviour
         }
     }
 
-    public void Alive(bool alive)
+    public void SetAlive(bool alive)
     {
         _alive = alive;
     }

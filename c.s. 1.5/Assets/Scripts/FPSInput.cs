@@ -6,9 +6,26 @@ using UnityEngine;
 public class FPSInput : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
+    public const float baseSpeed = 6.0f;
 
     private CharacterController _characterController;
     private float _gravity = -9.8f;
+
+
+    private void Awake()
+    {
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+
+    private void OnSpeedChanged(float value)
+    {
+        speed = baseSpeed * value;
+    }
 
     private void Start()
     {
