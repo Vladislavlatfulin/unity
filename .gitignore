@@ -497,3 +497,7 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,visualstudio,osx
+c.s. 1.5/.vsconfig
+Platformer2/.vsconfig
+RollaBall/.vsconfig
+RollaBall/.Ds_Store
