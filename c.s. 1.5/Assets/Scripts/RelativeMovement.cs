@@ -5,14 +5,23 @@ using UnityEngine;
 public class RelativeMovement : MonoBehaviour
 {
     [SerializeField] private Transform target;
+    [SerializeField] private float jumpSpeed = 15.0f;
 
+    private float _gravity = -9.8f;
+    private float _terminalVelocity = -10f;
+    private float _minFall = -1.5f;
     private float _rotSpeed = 15.0f;
     private float _moveSpeed = 6.0f;
+
+    private float _vertSpeed;
     private CharacterController _characterController;
+    private ControllerColliderHit _contact;
 
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
+        _vertSpeed = _minFall;
+
     }
 
     void Update()
@@ -36,9 +45,56 @@ public class RelativeMovement : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, direction, _rotSpeed * Time.deltaTime);
         }
 
+        bool hitGround = false;
+        RaycastHit hit;
+        if (_vertSpeed < 0 && Physics.Raycast(transform.position, Vector3.down, out hit))
+        {
+            float check = (_characterController.height + _characterController.radius) / 1.9f;
+            hitGround = hit.distance <= check;
+        }
+
+
+        if(hitGround)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                _vertSpeed = jumpSpeed;
+            }
+            else
+            {
+                _vertSpeed = _minFall;
+            }
+        } else
+        {
+            _vertSpeed += _gravity * 5 * Time.deltaTime;
+            if (_vertSpeed <= _terminalVelocity)
+            {
+                _vertSpeed = _terminalVelocity;
+            }
+            if (_characterController.isGrounded)
+            {
+                if (Vector3.Dot(movement, _contact.normal) < 0)
+                {
+                    movement = _contact.normal * _moveSpeed;
+                }
+                else
+                {
+                    movement += _contact.normal * _moveSpeed;
+                }
+            }
+        }
+
+        movement.y = _vertSpeed;
+
+
         movement *= Time.deltaTime;
         _characterController.Move(movement);
 
         
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        _contact = hit;
     }
 }
