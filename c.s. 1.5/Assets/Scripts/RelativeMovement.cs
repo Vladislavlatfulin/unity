@@ -6,12 +6,14 @@ public class RelativeMovement : MonoBehaviour
 {
     [SerializeField] private Transform target;
     [SerializeField] private float jumpSpeed = 15.0f;
+    [SerializeField] private float _rotSpeed = 10.0f;
+    [SerializeField] private float _moveSpeed = 6.0f;
 
+    private Animator _animator;
     private float _gravity = -9.8f;
     private float _terminalVelocity = -10f;
     private float _minFall = -1.5f;
-    private float _rotSpeed = 15.0f;
-    private float _moveSpeed = 6.0f;
+   
 
     private float _vertSpeed;
     private CharacterController _characterController;
@@ -19,6 +21,7 @@ public class RelativeMovement : MonoBehaviour
 
     private void Start()
     {
+        _animator = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
         _vertSpeed = _minFall;
 
@@ -45,6 +48,8 @@ public class RelativeMovement : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, direction, _rotSpeed * Time.deltaTime);
         }
 
+        
+
         bool hitGround = false;
         RaycastHit hit;
         if (_vertSpeed < 0 && Physics.Raycast(transform.position, Vector3.down, out hit))
@@ -53,8 +58,8 @@ public class RelativeMovement : MonoBehaviour
             hitGround = hit.distance <= check;
         }
 
-
-        if(hitGround)
+        _animator.SetFloat("Speed", movement.sqrMagnitude);
+        if (hitGround)
         {
             if (Input.GetButtonDown("Jump"))
             {
@@ -63,6 +68,8 @@ public class RelativeMovement : MonoBehaviour
             else
             {
                 _vertSpeed = _minFall;
+                _animator.SetBool("Jump", false);
+                
             }
         } else
         {
@@ -71,6 +78,12 @@ public class RelativeMovement : MonoBehaviour
             {
                 _vertSpeed = _terminalVelocity;
             }
+
+            if (_contact != null)
+            {
+                _animator.SetBool("Jump", true);
+            }
+
             if (_characterController.isGrounded)
             {
                 if (Vector3.Dot(movement, _contact.normal) < 0)
