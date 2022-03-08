@@ -8,6 +8,7 @@ public class RelativeMovement : MonoBehaviour
     [SerializeField] private float jumpSpeed = 15.0f;
     [SerializeField] private float _rotSpeed = 10.0f;
     [SerializeField] private float _moveSpeed = 6.0f;
+    [SerializeField] private float pushForce = 3f;
 
     private Animator _animator;
     private float _gravity = -9.8f;
@@ -109,5 +110,12 @@ public class RelativeMovement : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         _contact = hit;
+
+        Rigidbody body = hit.collider.attachedRigidbody;
+
+        if (body != null && !body.isKinematic)
+        {
+            body.velocity = hit.moveDirection * pushForce;
+        }
     }
 }

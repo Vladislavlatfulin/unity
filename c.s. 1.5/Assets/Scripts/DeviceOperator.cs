@@ -17,7 +17,7 @@ public class DeviceOperator : MonoBehaviour
                 Vector3 direction = collider.transform.position - transform.position;
                 if (Vector3.Dot(transform.forward, direction) > 0.5f) 
                 {
-                    collider.SendMessage("Operate", SendMessageOptions.RequireReceiver);
+                    collider.SendMessage("Operate", SendMessageOptions.DontRequireReceiver);
                 }
             }
         }
